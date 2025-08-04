@@ -23,4 +23,9 @@ public class MovieController {
     public ResponseEntity<List<Movie>> getAllMovies() {
         return movieService.getAllMovies();
     }
+
+    @GetMapping("getPromoMovie")
+    public ResponseEntity<Movie> getPromoMovie() {
+        return movieService.getPromoMovie();
+    }
 }

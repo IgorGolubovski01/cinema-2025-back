@@ -19,4 +19,9 @@ public class MovieService {
     public ResponseEntity<List<Movie>> getAllMovies() {
         return ResponseEntity.ok(movieRepo.findAll());
     }
+
+    public ResponseEntity<Movie> getPromoMovie() {
+        Movie m = movieRepo.findByPromo(true);
+        return ResponseEntity.ok(m);
+    }
 }

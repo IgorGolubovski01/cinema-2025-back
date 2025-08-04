@@ -31,5 +31,6 @@ public class Movie {
 
 
     private double price;
+    private boolean promo;
 
 }
