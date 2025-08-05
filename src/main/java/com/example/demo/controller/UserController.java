@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.SignUpRequest;
 import com.example.demo.service.UserService;
 import lombok.AllArgsConstructor;
@@ -17,5 +18,10 @@ public class UserController {
     @PostMapping("signUp")
     public ResponseEntity<String> signUp(@RequestBody SignUpRequest request){
         return userService.signUp(request);
+    }
+
+    @PostMapping("login")
+    public ResponseEntity<String> login(@RequestBody LoginRequest request){
+        return userService.login(request);
     }
 }

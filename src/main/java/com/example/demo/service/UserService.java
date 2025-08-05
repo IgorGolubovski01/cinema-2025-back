@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.SignUpRequest;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
@@ -9,6 +10,9 @@ import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,6 +21,7 @@ public class UserService {
 
     private final UserRepo userRepo;
     private final RoleRepo roleRepo;
+    private final AuthenticationManager authMng;
 
     public ResponseEntity<String> signUp(SignUpRequest request) {
 
@@ -44,4 +49,14 @@ public class UserService {
         return new ResponseEntity<>("Sign up successful", HttpStatus.CREATED);
     }
 
+    public ResponseEntity<String> login(LoginRequest request) {
+        Authentication auth = authMng.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+        );
+
+        if(auth.isAuthenticated())
+            return new ResponseEntity<>("Success.", HttpStatus.OK);
+
+        return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
+    }
 }
