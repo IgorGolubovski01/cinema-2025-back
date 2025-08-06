@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.SignUpRequest;
+import com.example.demo.dto.UserDto;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.repository.RoleRepo;
@@ -49,14 +50,22 @@ public class UserService {
         return new ResponseEntity<>("Sign up successful", HttpStatus.CREATED);
     }
 
-    public ResponseEntity<String> login(LoginRequest request) {
+    public ResponseEntity<UserDto> login(LoginRequest request) {
         Authentication auth = authMng.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
 
-        if(auth.isAuthenticated())
-            return new ResponseEntity<>("Success.", HttpStatus.OK);
 
-        return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
+
+        if(auth.isAuthenticated()) {
+            User user = userRepo.findUserByUsername(request.getUsername());
+
+            UserDto userDto = new UserDto();
+            userDto.setId(user.getId());
+            userDto.setUsername(user.getUsername());
+
+            return new ResponseEntity<>(userDto, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 }
