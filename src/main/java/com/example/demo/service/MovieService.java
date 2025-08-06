@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.entity.Movie;
 import com.example.demo.repository.MovieRepo;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,11 @@ public class MovieService {
     }
 
     public ResponseEntity<Movie> getPromoMovie() {
-        Movie m = movieRepo.findByPromo(true);
-        return ResponseEntity.ok(m);
+        return new ResponseEntity<>(movieRepo.findByPromo(true), HttpStatus.OK);
+    }
+
+    public ResponseEntity<Movie> getMovieById(Integer id) {
+        Movie m = movieRepo.findById(id).orElse(null);
+        return new ResponseEntity<>(m, HttpStatus.OK);
     }
 }
