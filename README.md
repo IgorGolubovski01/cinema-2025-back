@@ -1,2 +1,2 @@
 # cinema-2025-back
-asd
+This repository contains the backend implementation for the prototype version of the Cinema 2025 application. It provides core functionalities and APIs required to support the application's features during the development.
