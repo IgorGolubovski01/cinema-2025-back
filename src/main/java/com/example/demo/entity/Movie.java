@@ -33,4 +33,8 @@ public class Movie {
     private double price;
     private boolean promo;
 
+    private int capacity;
+    private int soldTickets;
+
+
 }
