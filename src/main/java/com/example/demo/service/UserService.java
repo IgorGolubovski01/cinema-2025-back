@@ -1,8 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.LoginRequest;
-import com.example.demo.dto.SignUpRequest;
-import com.example.demo.dto.UserDto;
+import com.example.demo.dto.*;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.repository.RoleRepo;
@@ -67,5 +65,33 @@ public class UserService {
             return new ResponseEntity<>(userDto, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    public ResponseEntity<EditProfileDataDto> getUserById(int userId) {
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        EditProfileDataDto editProfileDataDto = new EditProfileDataDto();
+        editProfileDataDto.setFirstName(user.getFirstName());
+        editProfileDataDto.setLastName(user.getLastName());
+        editProfileDataDto.setUsername(user.getUsername());
+        editProfileDataDto.setEmail(user.getEmail());
+        editProfileDataDto.setPhone(user.getPhone());
+        editProfileDataDto.setAddress(user.getAddress());
+        return new ResponseEntity<>(editProfileDataDto, HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> editProfile(EditProfileDto editProfileDto) {
+        User user = userRepo.findUserByUsername(editProfileDto.getUsername());
+
+        user.setFirstName(editProfileDto.getFirstName());
+        user.setLastName(editProfileDto.getLastName());
+        user.setUsername(editProfileDto.getUsername());
+        user.setEmail(editProfileDto.getEmail());
+        user.setPhone(editProfileDto.getPhone());
+        user.setAddress(editProfileDto.getAddress());
+        user.setPassword(editProfileDto.getPassword());
+
+        userRepo.save(user);
+        return new ResponseEntity<>("Edit profile successful", HttpStatus.OK);
     }
 }

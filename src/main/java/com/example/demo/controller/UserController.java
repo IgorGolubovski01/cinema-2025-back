@@ -1,8 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.LoginRequest;
-import com.example.demo.dto.SignUpRequest;
-import com.example.demo.dto.UserDto;
+import com.example.demo.dto.*;
 import com.example.demo.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,5 +22,15 @@ public class UserController {
     @PostMapping("login")
     public ResponseEntity<UserDto> login(@RequestBody LoginRequest request){
         return userService.login(request);
+    }
+
+    @PostMapping("editProfile")
+    public ResponseEntity<String> editProfile(@RequestBody EditProfileDto editProfileDto){
+        return userService.editProfile(editProfileDto);
+    }
+
+    @GetMapping("getUserById")
+    public ResponseEntity<EditProfileDataDto> getUserById(@RequestParam int userId){
+        return userService.getUserById(userId);
     }
 }

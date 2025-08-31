@@ -23,4 +23,6 @@ public class OrderEntity {
     private OrderStatus status;
     private LocalDateTime orderDate;
     private double totalPrice;
+    @Column(columnDefinition = "TINYINT(1) DEFAULT 1")
+    private int display = 1;
 }
